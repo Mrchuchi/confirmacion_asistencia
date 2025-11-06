@@ -65,36 +65,48 @@ class AsistenciaService:
     def confirmar_asistencia(self, request: ConfirmarAsistenciaRequest) -> ConfirmarAsistenciaResponse:
         """
         Confirma la asistencia del invitado y opcionalmente de sus acompañantes
+        Si invitado_id es 0, solo confirma acompañantes
         """
         try:
-            # Buscar el invitado
-            invitado = self.db.query(Invitado).filter(Invitado.id == request.invitado_id).first()
-            if not invitado:
-                return ConfirmarAsistenciaResponse(
-                    success=False,
-                    message="Invitado no encontrado",
-                    personas_confirmadas=0
-                )
-            
             personas_confirmadas = 0
+            invitado_id_real = request.invitado_id
             
-            # Confirmar asistencia del invitado principal si no está ya confirmada
-            if not invitado.estado_asistencia:
-                invitado.estado_asistencia = True
-                personas_confirmadas += 1
+            # Si invitado_id es 0, significa que no se quiere confirmar al invitado principal
+            # pero necesitamos el ID real para buscar sus acompañantes
+            if request.invitado_id == 0 and request.acompanantes_ids:
+                # Obtener el invitado_id desde el primer acompañante
+                primer_acompanante = self.db.query(Acompanante).filter(
+                    Acompanante.id == request.acompanantes_ids[0]
+                ).first()
+                if primer_acompanante:
+                    invitado_id_real = primer_acompanante.invitado_id
+            
+            # Confirmar asistencia del invitado principal solo si invitado_id > 0
+            if request.invitado_id > 0:
+                invitado = self.db.query(Invitado).filter(Invitado.id == request.invitado_id).first()
+                if not invitado:
+                    return ConfirmarAsistenciaResponse(
+                        success=False,
+                        message="Invitado no encontrado",
+                        personas_confirmadas=0
+                    )
                 
-                # Crear log de asistencia para invitado principal
-                log_invitado = AsistenciaLog(
-                    persona_id=invitado.id,
-                    tipo="principal"
-                )
-                self.db.add(log_invitado)
+                if not invitado.estado_asistencia:
+                    invitado.estado_asistencia = True
+                    personas_confirmadas += 1
+                    
+                    # Crear log de asistencia para invitado principal
+                    log_invitado = AsistenciaLog(
+                        persona_id=invitado.id,
+                        tipo="principal"
+                    )
+                    self.db.add(log_invitado)
             
             # Confirmar asistencia de acompañantes seleccionados
             if request.acompanantes_ids:
                 acompanantes = self.db.query(Acompanante).filter(
                     Acompanante.id.in_(request.acompanantes_ids),
-                    Acompanante.invitado_id == request.invitado_id
+                    Acompanante.invitado_id == invitado_id_real
                 ).all()
                 
                 for acompanante in acompanantes:

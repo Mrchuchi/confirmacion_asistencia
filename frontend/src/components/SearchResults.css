@@ -61,6 +61,10 @@
   border-width: 2px;
 }
 
+.acompanante-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+}
+
 .acompanante-card:hover {
   border-color: #0DB14B;
   box-shadow: 0 2px 8px rgba(13, 177, 75, 0.1);
@@ -120,6 +124,14 @@
   flex-direction: column;
 }
 
+.left-column {
+  min-width: 0;
+}
+
+.right-column {
+  min-width: 0;
+}
+
 .no-acompanantes {
   margin: 0;
 }
@@ -131,7 +143,6 @@
   padding: 1.25rem;
   text-align: center;
   height: fit-content;
-  margin-top: 2.25rem;
 }
 
 .no-acompanantes-card h4 {
@@ -150,6 +161,16 @@
   color: #6c757d;
   font-size: 0.9rem;
   font-style: italic;
+}
+
+.acompanantes-section h4 {
+  margin: 0 0 0.875rem 0;
+  color: #0DB14B;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .attendance-status {
@@ -181,6 +202,10 @@
   gap: 0.875rem;
 }
 
+.acompanante-card .person-info {
+  display: block;
+}
+
 .person-info {
   display: flex;
   justify-content: space-between;
@@ -188,10 +213,17 @@
   gap: 1rem;
 }
 
+.invitado-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 0.75rem;
+}
+
 .acompanante-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 0.75rem;
 }
 
