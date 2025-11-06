@@ -176,3 +176,33 @@ async def get_all_invitados(db: Session = Depends(get_db)):
     service = AsistenciaService(db)
     invitados = service.get_all_invitados()
     return invitados
+
+
+@router.delete("/invitados/eliminar-todos/")
+async def eliminar_todos_invitados(db: Session = Depends(get_db)):
+    """
+    Elimina todos los invitados y sus acompañantes de la base de datos.
+    Esta acción es irreversible.
+    """
+    try:
+        # Eliminar logs de asistencia primero (foreign key constraints)
+        db.execute("DELETE FROM asistencia_logs")
+        
+        # Eliminar acompañantes
+        db.execute("DELETE FROM acompanantes")
+        
+        # Eliminar invitados
+        db.execute("DELETE FROM invitados")
+        
+        db.commit()
+        
+        return {
+            "success": True,
+            "message": "Todos los invitados y acompañantes han sido eliminados exitosamente"
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al eliminar los invitados: {str(e)}"
+        )

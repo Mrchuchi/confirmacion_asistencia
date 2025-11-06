@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { AsistenciaService } from '../services/api';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { ImportExcel } from '../components/ImportExcel';
+import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 import type { AsistenciaStats, Invitado } from '../types';
 import './ListaInvitadosPage.css';
 
@@ -127,6 +128,51 @@ export const ListaInvitadosPage = () => {
   const cambiarItemsPorPagina = (nuevoValor: number) => {
     setItemsPorPagina(nuevoValor);
     setPaginaActual(1);
+  };
+
+  const eliminarTodosInvitados = async () => {
+    const confirmed = await showConfirmAlert(
+      '¿Eliminar todos los invitados?',
+      'Esta acción eliminará permanentemente todos los invitados y sus acompañantes de la base de datos. Esta acción no se puede deshacer.',
+      'Sí, eliminar todo',
+      'Cancelar'
+    );
+
+    if (!confirmed) return;
+
+    // Doble verificación: pedir que escriba "ELIMINAR" en mayúsculas
+    const verification = window.prompt(
+      'Para confirmar la eliminación de TODOS los invitados, escriba la palabra "ELIMINAR" en mayúsculas:'
+    );
+
+    if (verification !== 'ELIMINAR') {
+      await showErrorAlert('Cancelado', 'La eliminación ha sido cancelada. Debe escribir "ELIMINAR" exactamente.');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem('token');
+      
+      // Eliminar todos los invitados
+      const response = await fetch('http://localhost:8000/api/v1/invitados/eliminar-todos/', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        await showSuccessAlert('Éxito', 'Todos los invitados han sido eliminados correctamente');
+        await cargarDatos(); // Recargar los datos
+      } else {
+        throw new Error('Error al eliminar los invitados');
+      }
+    } catch {
+      await showErrorAlert('Error', 'No se pudieron eliminar los invitados');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Reset página cuando cambian los filtros
@@ -307,9 +353,14 @@ export const ListaInvitadosPage = () => {
           <div className="invitados-section">
             <div className="section-header">
               <h2>◉ Invitados ({invitadosFiltrados.length})</h2>
-              <button onClick={cargarDatos} className="refresh-button">
-                ↻ Actualizar
-              </button>
+              <div className="header-buttons">
+                <button onClick={cargarDatos} className="refresh-button">
+                  ↻ Actualizar
+                </button>
+                <button onClick={eliminarTodosInvitados} className="delete-all-button" disabled={isLoading}>
+                  🗑️ Eliminar Todo
+                </button>
+              </div>
             </div>
             
             {invitadosPaginados.length === 0 ? (
