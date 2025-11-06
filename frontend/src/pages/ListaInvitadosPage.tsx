@@ -5,6 +5,7 @@ import { ImportExcel } from '../components/ImportExcel';
 import { showConfirmAlert, showSuccessAlert, showErrorAlert } from '../utils/sweetAlert';
 import type { AsistenciaStats, Invitado } from '../types';
 import './ListaInvitadosPage.css';
+import Swal from 'sweetalert2';
 
 export const ListaInvitadosPage = () => {
   const [invitados, setInvitados] = useState<Invitado[]>([]);
@@ -28,7 +29,6 @@ export const ListaInvitadosPage = () => {
       setVistaMovil(window.innerWidth <= 640);
     };
     
-    checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -140,13 +140,58 @@ export const ListaInvitadosPage = () => {
 
     if (!confirmed) return;
 
-    // Doble verificación: pedir que escriba "ELIMINAR" en mayúsculas
-    const verification = window.prompt(
-      'Para confirmar la eliminación de TODOS los invitados, escriba la palabra "ELIMINAR" en mayúsculas:'
-    );
+    // Doble verificación con SweetAlert personalizado
+    const { value: verification } = await Swal.fire({
+      title: '⚠️ Confirmación Final',
+      html: `
+        <div style="text-align: left; margin: 20px 0;">
+          <p style="margin-bottom: 15px; color: #374151; font-size: 16px;">
+            Esta acción eliminará <strong>PERMANENTEMENTE</strong> todos los invitados y sus acompañantes de la base de datos.
+          </p>
+          <p style="margin-bottom: 20px; color: #6b7280; font-weight: 600;">
+            ⚡ Esta acción NO se puede deshacer
+          </p>
+          <p style="margin-bottom: 10px; color: #374151; font-size: 14px;">
+            Para continuar, escriba exactamente la palabra:
+          </p>
+          <div style="text-align: center; margin: 10px 0;">
+            <span style="background: #e5e7eb; padding: 8px 16px; border-radius: 6px; font-family: monospace; font-weight: bold; color: #374151; font-size: 18px; border: 2px solid #9ca3af;">
+              ELIMINAR
+            </span>
+          </div>
+        </div>
+      `,
+      input: 'text',
+      inputPlaceholder: 'Escriba "ELIMINAR" aquí...',
+      inputAttributes: {
+        style: 'text-align: center; font-size: 16px; font-weight: 600; text-transform: uppercase;'
+      },
+      showCancelButton: true,
+      confirmButtonText: '🗑️ Confirmar Eliminación',
+      cancelButtonText: '❌ Cancelar',
+      confirmButtonColor: '#6b7280',
+      cancelButtonColor: '#9ca3af',
+      focusConfirm: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Debe escribir algo para continuar'
+        }
+        if (value !== 'ELIMINAR') {
+          return 'Debe escribir exactamente "ELIMINAR" en mayúsculas'
+        }
+      },
+      customClass: {
+        container: 'swal-delete-confirmation',
+        popup: 'swal-delete-popup',
+        title: 'swal-delete-title',
+        input: 'swal-delete-input'
+      }
+    });
 
-    if (verification !== 'ELIMINAR') {
-      await showErrorAlert('Cancelado', 'La eliminación ha sido cancelada. Debe escribir "ELIMINAR" exactamente.');
+    if (!verification || verification !== 'ELIMINAR') {
+      await showErrorAlert('Cancelado', 'La eliminación ha sido cancelada.');
       return;
     }
 

@@ -376,6 +376,53 @@
   align-items: center;
 }
 
+/* Estilos personalizados para SweetAlert de eliminación */
+.swal-delete-confirmation .swal-delete-popup {
+  border-radius: 16px !important;
+  padding: 2rem !important;
+}
+
+.swal-delete-confirmation .swal-delete-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: #4b5563 !important;
+  margin-bottom: 1rem !important;
+}
+
+.swal-delete-confirmation .swal-delete-input {
+  border: 2px solid #6b7280 !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  background: #f9fafb !important;
+  color: #374151 !important;
+  margin-top: 1rem !important;
+}
+
+.swal-delete-confirmation .swal-delete-input:focus {
+  outline: none !important;
+  border-color: #374151 !important;
+  box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1) !important;
+  background: #ffffff !important;
+}
+
+.swal-delete-confirmation .swal2-confirm {
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+}
+
+.swal-delete-confirmation .swal2-cancel {
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+}
+
 /* Tabla de invitados */
 .table-container {
   background: white;
