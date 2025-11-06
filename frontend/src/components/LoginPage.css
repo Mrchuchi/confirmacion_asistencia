@@ -1,0 +1,368 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0DB14B 0%, #22c55e 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efectos de fondo animados */
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-20px, -20px) rotate(180deg); }
+}
+
+.login-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(13, 177, 75, 0.15);
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  animation: fadeInUp 0.6s ease-out;
+  border: 1px solid rgba(13, 177, 75, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Contenedor de logos */
+.login-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+.logo-section, .tribal-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.andesbpo-logo {
+  height: 45px;
+  width: auto;
+  animation: logoFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 8px rgba(13, 177, 75, 0.15));
+  transition: transform 0.3s ease;
+}
+
+.andesbpo-logo:hover {
+  transform: scale(1.05);
+}
+
+.tribal-mask {
+  height: 85px;
+  width: auto;
+  animation: tribalPulse 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.tribal-mask:hover {
+  transform: rotate(5deg) scale(1.05);
+}
+
+.separator-line {
+  width: 2px;
+  height: 50px;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    #0DB14B 20%, 
+    #0DB14B 80%, 
+    transparent 100%);
+  border-radius: 1px;
+  animation: lineGlow 2s ease-in-out infinite alternate;
+  position: relative;
+}
+
+.separator-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: #0DB14B;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(13, 177, 75, 0.5);
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.login-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  animation: bounce 2s infinite;
+  filter: drop-shadow(0 4px 8px rgba(13, 177, 75, 0.2));
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.login-header h2 {
+  color: #0DB14B;
+  margin: 0 0 10px 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.login-header p {
+  color: #6c757d;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.login-form {
+  margin-bottom: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0DB14B;
+  box-shadow: 0 0 0 3px rgba(13, 177, 75, 0.1);
+}
+
+.form-group input:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+
+/* Efecto de brillo en el botón */
+.login-button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #0DB14B 0%, #22c55e 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(13, 177, 75, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.login-button:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.login-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(13, 177, 75, 0.4);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animaciones para los logos */
+@keyframes logoFloat {
+  0%, 100% { 
+    transform: translateY(0px) scale(1);
+  }
+  50% { 
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+@keyframes tribalPulse {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  }
+  50% { 
+    transform: scale(1.08) rotate(1deg);
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.3));
+  }
+}
+
+@keyframes lineGlow {
+  0% { 
+    box-shadow: 0 0 5px rgba(13, 177, 75, 0.3);
+    opacity: 0.8;
+  }
+  100% { 
+    box-shadow: 0 0 15px rgba(13, 177, 75, 0.6);
+    opacity: 1;
+  }
+}
+
+@keyframes dotPulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 10px rgba(13, 177, 75, 0.5);
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.3);
+    box-shadow: 0 0 20px rgba(13, 177, 75, 0.8);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+  }
+  
+  .login-card {
+    padding: 30px 20px;
+  }
+  
+  .login-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .login-icon {
+    font-size: 3rem;
+  }
+}
+
+/* Responsive para dispositivos móviles */
+@media (max-width: 768px) {
+  .login-logos {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .separator-line {
+    width: 50px;
+    height: 2px;
+  }
+  
+  .separator-line::before {
+    top: 50%;
+    left: 50%;
+  }
+  
+  .andesbpo-logo {
+    height: 40px;
+  }
+  
+  .tribal-mask {
+    height: 70px;
+  }
+}

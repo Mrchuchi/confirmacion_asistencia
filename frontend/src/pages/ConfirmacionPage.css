@@ -1,0 +1,332 @@
+.confirmacion-page {
+  min-height: calc(100vh - 70px);
+  padding: 2rem 0;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.page-header h2 {
+  margin: 0 0 0 6rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #0DB14B;
+  text-align: center;
+}
+
+.page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(13, 177, 75, 0.3);
+  border-left: 4px solid #0DB14B;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #0DB14B;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Row containing search form and quick actions side */
+.search-row {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.search-main {
+  flex: 1 1 0;
+}
+
+.quick-actions-side {
+  width: 280px;
+  flex: 0 0 280px;
+}
+
+/* Ensure quick-actions-section fits inside the side panel */
+.quick-actions-side .quick-actions-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  border: 1px solid #e9ecef;
+}
+
+/* Container for search form with integrated actions */
+.search-container {
+  margin-bottom: 2rem;
+}
+
+/* Quick actions positioned above search container */
+.quick-actions-top {
+  margin-bottom: 1rem;
+}
+
+.quick-actions-top .quick-actions-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.quick-actions-top .action-btn {
+  min-width: 160px;
+  font-size: 0.9rem;
+  height: 42px;
+  padding: 0.65rem 1.25rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .confirmacion-page {
+    padding: 1.5rem 0;
+    min-height: calc(100vh - 60px);
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .page-header p {
+    font-size: 1rem;
+  }
+  
+  .page-content {
+    padding: 0 0.75rem;
+  }
+
+  .quick-actions-top .quick-actions-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .quick-actions-top .action-btn {
+    min-width: 140px;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .loading-container {
+    padding: 2rem;
+  }
+
+  .quick-actions-top .quick-actions-buttons {
+    gap: 0.75rem;
+  }
+
+  .quick-actions-top .action-btn {
+    width: 100%;
+    min-width: auto;
+    justify-content: center;
+  }
+}
+
+/* Acciones rápidas */
+.quick-actions-section {
+  margin-bottom: 2rem;
+}
+
+.quick-actions-section h3 {
+  margin: 0 0 1.5rem 0;
+  color: #2c3e50;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quick-actions-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.action-btn {
+  padding: 0.65rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: white;
+  min-width: 160px;
+  height: 42px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.action-btn.add-guest {
+  background: linear-gradient(135deg, #0DB14B 0%, #0a9642 100%);
+  box-shadow: 0 2px 8px rgba(13, 177, 75, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn.add-guest:hover {
+  background: linear-gradient(135deg, #0a9642 0%, #087a36 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(13, 177, 75, 0.3);
+}
+
+.action-btn.add-companion {
+  background: linear-gradient(135deg, #0DB14B 0%, #0a9642 100%);
+  box-shadow: 0 2px 8px rgba(13, 177, 75, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-btn.add-companion:hover {
+  background: linear-gradient(135deg, #0a9642 0%, #087a36 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(13, 177, 75, 0.3);
+}
+
+.btn-icon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+/* Efectos adicionales para botones */
+.action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(13, 177, 75, 0.2);
+}
+
+.action-btn:hover .btn-icon {
+  transform: scale(1.1);
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.action-btn:hover::before {
+  left: 100%;
+}
+
+.action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 177, 75, 0.3);
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.action-btn:disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(13, 177, 75, 0.2);
+}
+
+.quick-actions-info {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.quick-actions-info p {
+  margin: 0 0 0.75rem 0;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.quick-actions-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #6c757d;
+}
+
+.quick-actions-info li {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Responsive para acciones rápidas */
+@media (max-width: 768px) {
+  .quick-actions-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .action-btn {
+    min-width: 140px;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .action-btn {
+    width: 100%;
+    min-width: auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1024px) {
+  .search-row {
+    flex-direction: column;
+  }
+
+  .quick-actions-side {
+    width: auto;
+    flex: 0 0 auto;
+  }
+}
