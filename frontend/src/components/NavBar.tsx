@@ -93,6 +93,20 @@ export const NavBar: React.FC = () => {
             <span className="navbar-icon">◉</span>
             Usuarios
           </Link>
+
+          {/* Botón de cerrar sesión en móvil */}
+          <div className="navbar-item mobile-logout">
+            <button 
+              onClick={() => {
+                closeMobileMenu();
+                handleLogout();
+              }}
+              className="mobile-logout-button"
+            >
+              <span className="navbar-icon">⏻</span>
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
 
         <div className="navbar-user">
