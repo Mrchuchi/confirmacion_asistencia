@@ -21,9 +21,17 @@ export const UsuariosPage: React.FC = () => {
     nombre_completo: '',
     password: ''
   });
+  const [vistaMovil, setVistaMovil] = useState(false);
 
   useEffect(() => {
     loadUsuarios();
+    const checkMobile = () => {
+      setVistaMovil(window.innerWidth <= 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const loadUsuarios = async () => {
@@ -215,38 +223,14 @@ export const UsuariosPage: React.FC = () => {
               </div>
             ) : (
               <div className="table-container">
-                <table className="usuarios-table">
-                  <thead>
-                    <tr>
-                      <th>◉ Nombre Completo</th>
-                      <th>⚊ Usuario</th>
-                      <th>● Fecha Creación</th>
-                      <th>✓ Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                {vistaMovil ? (
+                  /* Vista de tarjetas para móviles */
+                  <div className="usuarios-cards">
                     {usuariosFiltrados.map((user) => (
-                      <tr key={user.id} className="usuario-row">
-                        <td className="name-cell">
-                          <div className="name-container">
-                            <span className="name">{user.nombre_completo}</span>
-                          </div>
-                        </td>
-
-                        <td className="username-cell">
-                          <span className="username-badge">@{user.username}</span>
-                        </td>
-
-                        <td className="date-cell">
-                          {new Date(user.created_at).toLocaleDateString('es-ES', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </td>
-
-                        <td className="actions-cell">
-                          <div className="action-buttons">
+                      <div key={user.id} className="usuario-card">
+                        <div className="card-header">
+                          <div className="card-name">{user.nombre_completo}</div>
+                          <div className="card-actions">
                             <button
                               className="action-btn edit-btn"
                               onClick={() => handleOpenModal(user)}
@@ -262,11 +246,83 @@ export const UsuariosPage: React.FC = () => {
                               X
                             </button>
                           </div>
-                        </td>
-                      </tr>
+                        </div>
+                        
+                        <div className="card-body">
+                          <div className="card-info">
+                            <span className="info-label">Usuario:</span>
+                            <span className="info-value username-badge">@{user.username}</span>
+                          </div>
+                          
+                          <div className="card-info">
+                            <span className="info-label">Creado:</span>
+                            <span className="info-value">
+                              {new Date(user.created_at).toLocaleDateString('es-ES', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     ))}
-                  </tbody>
-                </table>
+                  </div>
+                ) : (
+                  /* Vista de tabla para desktop/tablet */
+                  <table className="usuarios-table">
+                    <thead>
+                      <tr>
+                        <th>◉ Nombre Completo</th>
+                        <th>⚊ Usuario</th>
+                        <th>● Fecha Creación</th>
+                        <th>✓ Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {usuariosFiltrados.map((user) => (
+                        <tr key={user.id} className="usuario-row">
+                          <td className="name-cell">
+                            <div className="name-container">
+                              <span className="name">{user.nombre_completo}</span>
+                            </div>
+                          </td>
+
+                          <td className="username-cell">
+                            <span className="username-badge">@{user.username}</span>
+                          </td>
+
+                          <td className="date-cell">
+                            {new Date(user.created_at).toLocaleDateString('es-ES', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric'
+                            })}
+                          </td>
+
+                          <td className="actions-cell">
+                            <div className="action-buttons">
+                              <button
+                                className="action-btn edit-btn"
+                                onClick={() => handleOpenModal(user)}
+                                title="Editar usuario"
+                              >
+                                ✎
+                              </button>
+                              <button
+                                className="action-btn delete-btn"
+                                onClick={() => handleDelete(user)}
+                                title="Eliminar usuario"
+                              >
+                                X
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
               </div>
             )}
           </div>
