@@ -108,7 +108,7 @@ export const ConfirmacionPage = () => {
   return (
     <div className="confirmacion-page">
       <div className="page-header">
-        <h2>✓ Confirmación de Asistencia</h2>
+        <h2 className="text-responsive">✓ Confirmación de Asistencia</h2>
       </div>
 
       <div className="page-content">
@@ -135,7 +135,7 @@ export const ConfirmacionPage = () => {
               className="action-btn add-guest"
             >
               <span className="btn-icon">+</span>
-              Agregar Invitado Nuevo
+              <span className="btn-text">Agregar Invitado Nuevo</span>
             </button>
 
             {searchResult && (
@@ -148,7 +148,7 @@ export const ConfirmacionPage = () => {
                 className="action-btn add-companion"
               >
                 <span className="btn-icon">+</span>
-                Agregar Acompañante Extra
+                <span className="btn-text">Agregar Acompañante Extra</span>
               </button>
             )}
           </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/authContext';
 import { showConfirmAlert } from '../utils/sweetAlert';
@@ -7,6 +7,7 @@ import './NavBar.css';
 export const NavBar: React.FC = () => {
   const location = useLocation();
   const { user, logout } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -25,11 +26,19 @@ export const NavBar: React.FC = () => {
     }
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-brand">
-          <Link to="/" className="brand-link">
+          <Link to="/" className="brand-link" onClick={closeMobileMenu}>
             <div className="navbar-logos">
               <img 
                 src="/images/logo_andesbpo_blanco.png" 
@@ -46,10 +55,22 @@ export const NavBar: React.FC = () => {
           </Link>
         </div>
         
-        <div className="navbar-menu">
+        {/* Hamburger menu button - visible only on mobile */}
+        <button 
+          className="mobile-menu-toggle"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+        </button>
+        
+        <div className={`navbar-menu ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
           <Link 
             to="/confirmacion" 
             className={`navbar-item ${isActive('/confirmacion') || isActive('/') ? 'active' : ''}`}
+            onClick={closeMobileMenu}
           >
             <span className="navbar-icon">✓</span>
             Confirmación
@@ -58,6 +79,7 @@ export const NavBar: React.FC = () => {
           <Link 
             to="/lista-invitados" 
             className={`navbar-item ${isActive('/lista-invitados') ? 'active' : ''}`}
+            onClick={closeMobileMenu}
           >
             <span className="navbar-icon">⚊</span>
             Lista de Invitados
@@ -66,6 +88,7 @@ export const NavBar: React.FC = () => {
           <Link 
             to="/usuarios" 
             className={`navbar-item ${isActive('/usuarios') ? 'active' : ''}`}
+            onClick={closeMobileMenu}
           >
             <span className="navbar-icon">◉</span>
             Usuarios
@@ -75,7 +98,7 @@ export const NavBar: React.FC = () => {
         <div className="navbar-user">
           <span className="user-info">
             <span className="user-icon">⚹</span>
-            {user?.nombre_completo}
+            <span className="user-name-mobile">{user?.nombre_completo}</span>
           </span>
           <button 
             onClick={handleLogout}
@@ -83,10 +106,15 @@ export const NavBar: React.FC = () => {
             title="Cerrar sesión"
           >
             <span className="logout-icon">⏻</span>
-            Cerrar sesión
+            <span className="logout-text-mobile">Cerrar sesión</span>
           </button>
         </div>
       </div>
+      
+      {/* Mobile menu overlay */}
+      {isMobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={closeMobileMenu}></div>
+      )}
     </nav>
   );
 };

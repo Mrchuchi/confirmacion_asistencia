@@ -25,7 +25,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading, onC
 
   return (
     <div className="search-form-container">
-      <h2>Búsqueda de Invitados</h2>
+      <h2 className="text-responsive">Búsqueda de Invitados</h2>
       <form onSubmit={handleSubmit} className="search-form">
         <div className="input-group">
           <input

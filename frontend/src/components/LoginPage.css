@@ -325,31 +325,67 @@
 /* Responsive */
 @media (max-width: 480px) {
   .login-container {
-    padding: 10px;
+    padding: 0.5rem;
   }
   
   .login-card {
-    padding: 30px 20px;
+    padding: 1.5rem 1rem;
+  }
+  
+  .login-logos {
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .andesbpo-logo {
+    height: 30px;
+  }
+  
+  .tribal-mask {
+    height: 50px;
   }
   
   .login-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   
-  .login-icon {
-    font-size: 3rem;
+  .login-header p {
+    font-size: 0.85rem;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-group input {
+    padding: 10px 12px;
+  }
+  
+  .login-button {
+    padding: 12px;
   }
 }
 
 /* Responsive para dispositivos móviles */
 @media (max-width: 768px) {
+  .login-container {
+    padding: 1rem;
+  }
+  
+  .login-card {
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+    margin: 0;
+  }
+  
   .login-logos {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
+    margin-bottom: 20px;
   }
   
   .separator-line {
-    width: 50px;
+    width: 40px;
     height: 2px;
   }
   
@@ -359,10 +395,34 @@
   }
   
   .andesbpo-logo {
-    height: 40px;
+    height: 35px;
   }
   
   .tribal-mask {
-    height: 70px;
+    height: 60px;
+  }
+  
+  .login-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .login-header p {
+    font-size: 0.9rem;
+  }
+  
+  .form-group input {
+    padding: 12px 14px;
+    font-size: 16px; /* Previene zoom en iOS */
+  }
+  
+  .login-button {
+    padding: 14px;
+    font-size: 16px; /* Previene zoom en iOS */
+    min-height: 44px;
+  }
+  
+  .error-message {
+    padding: 10px 14px;
+    font-size: 0.9rem;
   }
 }

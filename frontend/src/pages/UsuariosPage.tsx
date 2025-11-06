@@ -172,15 +172,18 @@ export const UsuariosPage: React.FC = () => {
           <div className="search-control">
             <input
               type="text"
-              placeholder="Buscar por nombre o usuario..."
+              placeholder="Buscar usuario..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               className="search-input"
             />
           </div>
-
-          <button className="add-button" onClick={() => handleOpenModal()}>
-            + Nuevo Usuario
+          <button
+            onClick={() => handleOpenModal()}
+            className="add-button"
+          >
+            <span className="btn-icon">+</span>
+            <span className="btn-text">Agregar Usuario</span>
           </button>
         </div>
 
@@ -281,32 +284,38 @@ export const UsuariosPage: React.FC = () => {
 
             <form onSubmit={handleSubmit} className="usuario-form">
               <div className="form-group">
-                <label htmlFor="username">Nombre de Usuario *</label>
+                <label htmlFor="username" className="form-label">
+                  <span className="required">*</span> Nombre de Usuario
+                </label>
                 <input
                   type="text"
                   id="username"
                   value={formData.username}
                   onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                   placeholder="Ingrese el nombre de usuario"
+                  className="form-input"
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="nombre_completo">Nombre Completo *</label>
+                <label htmlFor="nombre_completo" className="form-label">
+                  <span className="required">*</span> Nombre Completo
+                </label>
                 <input
                   type="text"
                   id="nombre_completo"
                   value={formData.nombre_completo}
                   onChange={(e) => setFormData({ ...formData, nombre_completo: e.target.value })}
                   placeholder="Ingrese el nombre completo"
+                  className="form-input"
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="password">
-                  Contraseña {editingUser ? '(dejar en blanco para no cambiar)' : '*'}
+                <label htmlFor="password" className="form-label">
+                  Contraseña {editingUser ? <span className="optional">(dejar en blanco para no cambiar)</span> : <span className="required">*</span>}
                 </label>
                 <input
                   type="password"
@@ -314,16 +323,23 @@ export const UsuariosPage: React.FC = () => {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="Ingrese la contraseña"
+                  className="form-input"
                   required={!editingUser}
                 />
               </div>
 
               <div className="modal-actions">
-                <button type="button" className="btn-cancel" onClick={handleCloseModal}>
+                <button
+                  onClick={handleCloseModal}
+                  className="btn-secondary"
+                >
                   Cancelar
                 </button>
-                <button type="submit" className="btn-submit">
-                  {editingUser ? 'Actualizar' : 'Crear'}
+                <button
+                  type="submit"
+                  className="btn-primary"
+                >
+                  {editingUser ? 'Actualizar Usuario' : 'Agregar Usuario'}
                 </button>
               </div>
             </form>

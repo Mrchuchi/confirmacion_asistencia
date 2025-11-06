@@ -106,7 +106,7 @@ export const AgregarPersonas: React.FC<AgregarPersonasProps> = ({
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="modal-header">
-          <h3>
+          <h3 className="text-responsive">
             {modo === 'invitado' 
               ? '+ Agregar Invitado Nuevo' 
               : `+ Agregar Acompañante Extra a ${invitadoNombre}`

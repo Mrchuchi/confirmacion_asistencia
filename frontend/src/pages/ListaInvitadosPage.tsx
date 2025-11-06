@@ -13,10 +13,23 @@ export const ListaInvitadosPage = () => {
   const [filtro, setFiltro] = useState<'todos' | 'confirmados' | 'pendientes'>('todos');
   const [busqueda, setBusqueda] = useState('');
   const [paginaActual, setPaginaActual] = useState(1);
-  const itemsPorPagina = 5;
+  const [itemsPorPagina, setItemsPorPagina] = useState(10);
+  const [ordenarPor, setOrdenarPor] = useState<'nombre' | 'cedula' | 'estado'>('nombre');
+  const [ordenAscendente, setOrdenAscendente] = useState(true);
+  const [vistaMovil, setVistaMovil] = useState(false);
 
   useEffect(() => {
     cargarDatos();
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setVistaMovil(window.innerWidth <= 640);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const cargarDatos = async () => {
@@ -55,6 +68,28 @@ export const ListaInvitadosPage = () => {
     }
     
     return true;
+  }).sort((a, b) => {
+    let valorA, valorB;
+    
+    switch (ordenarPor) {
+      case 'cedula':
+        valorA = a.cedula;
+        valorB = b.cedula;
+        break;
+      case 'estado':
+        valorA = a.estado_asistencia ? 1 : 0;
+        valorB = b.estado_asistencia ? 1 : 0;
+        break;
+      case 'nombre':
+      default:
+        valorA = a.nombre.toLowerCase();
+        valorB = b.nombre.toLowerCase();
+        break;
+    }
+    
+    if (valorA < valorB) return ordenAscendente ? -1 : 1;
+    if (valorA > valorB) return ordenAscendente ? 1 : -1;
+    return 0;
   });
 
   // Lógica de paginación
@@ -77,6 +112,21 @@ export const ListaInvitadosPage = () => {
     if (paginaActual < totalPaginas) {
       setPaginaActual(paginaActual + 1);
     }
+  };
+
+  const cambiarOrden = (campo: 'nombre' | 'cedula' | 'estado') => {
+    if (ordenarPor === campo) {
+      setOrdenAscendente(!ordenAscendente);
+    } else {
+      setOrdenarPor(campo);
+      setOrdenAscendente(true);
+    }
+    setPaginaActual(1);
+  };
+
+  const cambiarItemsPorPagina = (nuevoValor: number) => {
+    setItemsPorPagina(nuevoValor);
+    setPaginaActual(1);
   };
 
   // Reset página cuando cambian los filtros
@@ -230,6 +280,21 @@ export const ListaInvitadosPage = () => {
               Pendientes
             </button>
           </div>
+
+          <div className="table-controls">
+            <label htmlFor="items-por-pagina" className="control-label">Mostrar:</label>
+            <select
+              id="items-por-pagina"
+              value={itemsPorPagina}
+              onChange={(e) => cambiarItemsPorPagina(Number(e.target.value))}
+              className="items-select"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
         </div>
 
         {/* Lista de invitados */}
@@ -253,61 +318,181 @@ export const ListaInvitadosPage = () => {
                 <h3>No se encontraron invitados</h3>
                 <p>Intenta cambiar los filtros de búsqueda</p>
               </div>
+            ) : vistaMovil ? (
+              <div className="tarjetas-container">
+                {invitadosPaginados.map((invitado) => (
+                  <div key={invitado.id} className="invitado-card">
+                    <div className="card-header">
+                      <h3 className="invitado-nombre">{invitado.nombre}</h3>
+                      <button className="refresh-button mini" onClick={() => cargarDatos()}>
+                        ↻
+                      </button>
+                    </div>
+                    
+                    <div className="card-content">
+                      <div className="info-row">
+                        <span className="info-label">Cédula:</span>
+                        <span className="info-value">{invitado.cedula}</span>
+                      </div>
+                      
+                      <div className="info-row">
+                        <span className="info-label">Estado:</span>
+                        <span className={`info-value estado ${invitado.estado_asistencia ? 'confirmado' : 'pendiente'}`}>
+                          {invitado.estado_asistencia ? '✓ Confirmado' : '○ Pendiente'}
+                        </span>
+                      </div>
+                      
+                      <div className="acompanantes-info">
+                        <span className="acompanantes-label">Acompañantes:</span>
+                        {invitado.acompanantes.length > 0 ? (
+                          <div className="acompanantes-list">
+                            {invitado.acompanantes.map((acomp) => (
+                              <div key={acomp.id} className="acompanante-item">
+                                <span className="acompanante-nombre">{acomp.nombre}</span>
+                                <span className={`acompanante-status ${acomp.estado_asistencia ? 'confirmado' : 'pending'}`}>
+                                  {acomp.estado_asistencia ? '✓' : '○'}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <span className="no-acompanantes">Sin acompañantes</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             ) : (
               <div className="table-container">
-                <table className="invitados-table">
-                  <thead>
-                    <tr>
-                      <th>◉ Invitado Principal</th>
-                      <th>⚊ Cédula</th>
-                      <th>● Acompañantes</th>
-                      <th>✓ Estado</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                {vistaMovil ? (
+                  /* Vista de tarjetas para móviles */
+                  <div className="invitados-cards">
                     {invitadosPaginados.map((invitado) => (
-                      <tr key={invitado.id} className="invitado-row">
-                        <td className="invitado-name-cell">
-                          <div className="name-container">
-                            <span className="name">{invitado.nombre}</span>
+                      <div key={invitado.id} className="invitado-card">
+                        <div className="card-header">
+                          <div className="card-name">{invitado.nombre}</div>
+                          <div className={`card-status ${invitado.estado_asistencia ? 'confirmado' : 'pendiente'}`}>
+                            {invitado.estado_asistencia ? '✓ Confirmado' : '○ Pendiente'}
                           </div>
-                        </td>
+                        </div>
                         
-                        <td className="cedula-cell">
-                          <span className="cedula-badge">{invitado.cedula}</span>
-                        </td>
-                        
-                        <td className="acompanantes-cell">
-                          {invitado.acompanantes.length > 0 ? (
-                            <div className="acompanantes-container">
-                              <div className="acompanantes-count">
-                                {invitado.acompanantes.length} acompañante{invitado.acompanantes.length !== 1 ? 's' : ''}
-                              </div>
-                              <div className="acompanantes-preview">
-                                {invitado.acompanantes.map((acomp) => (
-                                  <div key={acomp.id} className="acompanante-preview">
+                        <div className="card-body">
+                          <div className="card-info">
+                            <span className="info-label">Cédula:</span>
+                            <span className="info-value cedula-badge">{invitado.cedula}</span>
+                          </div>
+                          
+                          <div className="card-acompanantes">
+                            <div className="acompanantes-header">
+                              <span className="info-label">Acompañantes:</span>
+                              <span className="acompanantes-count">
+                                {invitado.acompanantes.length}
+                              </span>
+                            </div>
+                            
+                            {invitado.acompanantes.length > 0 && (
+                              <div className="acompanantes-list">
+                                {invitado.acompanantes.slice(0, 3).map((acomp) => (
+                                  <div key={acomp.id} className="acompanante-item">
                                     <span className="acompanante-name">{acomp.nombre}</span>
                                     <span className={`acompanante-status ${acomp.estado_asistencia ? 'confirmed' : 'pending'}`}>
                                       {acomp.estado_asistencia ? '✓' : '○'}
                                     </span>
                                   </div>
                                 ))}
+                                {invitado.acompanantes.length > 3 && (
+                                  <div className="more-acompanantes">
+                                    +{invitado.acompanantes.length - 3} más
+                                  </div>
+                                )}
                               </div>
-                            </div>
-                          ) : (
-                            <span className="no-acompanantes">Sin acompañantes</span>
-                          )}
-                        </td>
-                        
-                        <td className="estado-cell">
-                          <span className={`estado-badge ${invitado.estado_asistencia ? 'confirmado' : 'pendiente'}`}>
-                            {invitado.estado_asistencia ? '✓ Confirmado' : '○ Pendiente'}
-                          </span>
-                        </td>
-                      </tr>
+                            )}
+                          </div>
+                        </div>
+                      </div>
                     ))}
-                  </tbody>
-                </table>
+                  </div>
+                ) : (
+                  /* Vista de tabla para desktop/tablet */
+                  <table className="invitados-table">
+                    <thead>
+                      <tr>
+                        <th 
+                          className={`sortable-header ${ordenarPor === 'nombre' ? 'active' : ''}`}
+                          onClick={() => cambiarOrden('nombre')}
+                        >
+                          <span>◉ Invitado Principal</span>
+                          <span className={`sort-indicator ${ordenarPor === 'nombre' ? (ordenAscendente ? 'asc' : 'desc') : ''}`}>
+                            {ordenarPor === 'nombre' ? (ordenAscendente ? '↑' : '↓') : '↕'}
+                          </span>
+                        </th>
+                        <th 
+                          className={`sortable-header ${ordenarPor === 'cedula' ? 'active' : ''}`}
+                          onClick={() => cambiarOrden('cedula')}
+                        >
+                          <span>⚊ Cédula</span>
+                          <span className={`sort-indicator ${ordenarPor === 'cedula' ? (ordenAscendente ? 'asc' : 'desc') : ''}`}>
+                            {ordenarPor === 'cedula' ? (ordenAscendente ? '↑' : '↓') : '↕'}
+                          </span>
+                        </th>
+                        <th>● Acompañantes</th>
+                        <th 
+                          className={`sortable-header ${ordenarPor === 'estado' ? 'active' : ''}`}
+                          onClick={() => cambiarOrden('estado')}
+                        >
+                          <span>✓ Estado</span>
+                          <span className={`sort-indicator ${ordenarPor === 'estado' ? (ordenAscendente ? 'asc' : 'desc') : ''}`}>
+                            {ordenarPor === 'estado' ? (ordenAscendente ? '↑' : '↓') : '↕'}
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {invitadosPaginados.map((invitado) => (
+                        <tr key={invitado.id} className="invitado-row">
+                          <td className="invitado-name-cell">
+                            <div className="name-container">
+                              <span className="name">{invitado.nombre}</span>
+                            </div>
+                          </td>
+                          
+                          <td className="cedula-cell">
+                            <span className="cedula-badge">{invitado.cedula}</span>
+                          </td>
+                          
+                          <td className="acompanantes-cell">
+                            {invitado.acompanantes.length > 0 ? (
+                              <div className="acompanantes-container">
+                                <div className="acompanantes-count">
+                                  {invitado.acompanantes.length} acompañante{invitado.acompanantes.length !== 1 ? 's' : ''}
+                                </div>
+                                <div className="acompanantes-preview">
+                                  {invitado.acompanantes.map((acomp) => (
+                                    <div key={acomp.id} className="acompanante-preview">
+                                      <span className="acompanante-name">{acomp.nombre}</span>
+                                      <span className={`acompanante-status ${acomp.estado_asistencia ? 'confirmed' : 'pending'}`}>
+                                        {acomp.estado_asistencia ? '✓' : '○'}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ) : (
+                              <span className="no-acompanantes">Sin acompañantes</span>
+                            )}
+                          </td>
+                          
+                          <td className="estado-cell">
+                            <span className={`estado-badge ${invitado.estado_asistencia ? 'confirmado' : 'pendiente'}`}>
+                              {invitado.estado_asistencia ? '✓ Confirmado' : '○ Pendiente'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
                 
                 {/* Paginación */}
                 {invitadosFiltrados.length > 0 && totalPaginas > 1 && (

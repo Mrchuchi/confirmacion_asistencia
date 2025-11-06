@@ -239,10 +239,12 @@
 
   .modal-content {
     max-height: 95vh;
+    max-width: 95vw;
   }
 
   .modal-header {
     padding: 1rem 1rem 0 1rem;
+    margin-bottom: 1rem;
   }
 
   .modal-header h3 {
@@ -253,18 +255,86 @@
     padding: 0 1rem;
   }
 
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input {
+    padding: 0.7rem 0.9rem;
+    font-size: 16px; /* Previene zoom en iOS */
+    min-height: 44px;
+  }
+
+  .error-message {
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+  }
+
   .form-actions {
     padding: 1rem;
     margin: 1rem -1rem 0;
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .btn-cancel,
   .btn-submit {
     width: 100%;
+    min-height: 44px;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
   }
 
   .modal-info {
     margin: 0 1rem 1rem;
+    padding: 0.8rem;
+  }
+
+  .modal-info p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 0.25rem;
+  }
+
+  .modal-content {
+    max-width: 100vw;
+    border-radius: 8px;
+  }
+
+  .modal-header {
+    padding: 0.75rem 0.75rem 0 0.75rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1rem;
+  }
+
+  .agregar-form {
+    padding: 0 0.75rem;
+  }
+
+  .form-group input {
+    font-size: 16px;
+  }
+
+  .form-actions {
+    padding: 0.75rem;
+    margin: 0.75rem -0.75rem 0;
+  }
+
+  .btn-cancel,
+  .btn-submit {
+    font-size: 0.9rem;
+    padding: 0.75rem 0.9rem;
   }
 }

@@ -1,0 +1,223 @@
+/* Utilidades Responsive Globales */
+
+/* Contenedores responsive */
+.responsive-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-container {
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-container {
+    padding: 0 0.5rem;
+  }
+}
+
+/* Grid responsive */
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.responsive-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.responsive-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-grid-2,
+  .responsive-grid-3,
+  .responsive-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Flex responsive */
+.responsive-flex {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-flex {
+    flex-direction: column;
+  }
+  
+  .responsive-flex-row {
+    flex-direction: row;
+  }
+}
+
+/* Texto responsive */
+.responsive-text {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-text {
+    font-size: 0.85rem;
+  }
+}
+
+/* Espaciado responsive */
+.responsive-padding {
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-padding {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-padding {
+    padding: 1rem;
+  }
+}
+
+/* Márgenes responsive */
+.responsive-margin {
+  margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .responsive-margin {
+    margin: 1.5rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-margin {
+    margin: 1rem 0;
+  }
+}
+
+/* Botones responsive */
+.responsive-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  min-height: 44px;
+}
+
+@media (max-width: 480px) {
+  .responsive-btn {
+    padding: 0.625rem 1rem;
+    font-size: 16px; /* Previene zoom en iOS */
+  }
+}
+
+/* Formularios responsive */
+.responsive-form input,
+.responsive-form textarea,
+.responsive-form select {
+  font-size: 16px; /* Previene zoom en iOS */
+  padding: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .responsive-form input,
+  .responsive-form textarea,
+  .responsive-form select {
+    padding: 0.625rem;
+  }
+}
+
+/* Tablas responsive */
+.responsive-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.responsive-table {
+  min-width: 600px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .responsive-table {
+    font-size: 0.85rem;
+  }
+}
+
+/* Cards responsive */
+.responsive-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .responsive-card {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-card {
+    padding: 0.875rem;
+  }
+}
+
+/* Utilidades de visibilidad */
+.hidden-mobile {
+  display: block;
+}
+
+.hidden-desktop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none;
+  }
+  
+  .hidden-desktop {
+    display: block;
+  }
+}
+
+/* Utilidades de texto */
+.text-center-mobile {
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .text-center-mobile {
+    text-align: center;
+  }
+}
+
+/* Utilidades de ancho */
+.full-width-mobile {
+  width: auto;
+}
+
+@media (max-width: 768px) {
+  .full-width-mobile {
+    width: 100%;
+  }
+}

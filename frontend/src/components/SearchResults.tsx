@@ -40,7 +40,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
   return (
     <div className="search-results-container">
       <div className="results-header">
-        <h3>Información del Invitado</h3>
+        <h3 className="text-responsive">Información del Invitado</h3>
         <div className="status-badge">
           {asistencia_confirmada ? (
             <span className="status confirmed">✓ Asistencia Confirmada</span>
