@@ -185,23 +185,40 @@ async def eliminar_todos_invitados(db: Session = Depends(get_db)):
     Esta acción es irreversible.
     """
     try:
-        # Eliminar logs de asistencia primero (foreign key constraints)
-        db.execute("DELETE FROM asistencia_logs")
+        # Importar modelos correctamente
+        from ..models import Invitado, Acompanante, AsistenciaLog
         
-        # Eliminar acompañantes
-        db.execute("DELETE FROM acompanantes")
+        # Obtener el número de registros antes de eliminar
+        total_invitados = db.query(Invitado).count()
+        total_acompanantes = db.query(Acompanante).count()
+        total_logs = db.query(AsistenciaLog).count()
         
-        # Eliminar invitados
-        db.execute("DELETE FROM invitados")
+        # Eliminar todos los logs de asistencia primero
+        logs_deleted = db.query(AsistenciaLog).delete()
         
+        # Eliminar todos los acompañantes explícitamente
+        acompanantes_deleted = db.query(Acompanante).delete()
+        
+        # Eliminar todos los invitados
+        invitados_deleted = db.query(Invitado).delete()
+        
+        # Confirmar los cambios
         db.commit()
         
         return {
             "success": True,
-            "message": "Todos los invitados y acompañantes han sido eliminados exitosamente"
+            "message": f"Eliminados exitosamente: {invitados_deleted} invitados, {acompanantes_deleted} acompañantes, {logs_deleted} logs",
+            "deleted": {
+                "invitados": invitados_deleted,
+                "acompanantes": acompanantes_deleted,
+                "logs": logs_deleted
+            }
         }
     except Exception as e:
         db.rollback()
+        import traceback
+        error_details = traceback.format_exc()
+        print(f"Error detallado: {error_details}")
         raise HTTPException(
             status_code=500,
             detail=f"Error al eliminar los invitados: {str(e)}"

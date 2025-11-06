@@ -164,7 +164,7 @@ export const ListaInvitadosPage = () => {
       input: 'text',
       inputPlaceholder: 'Escriba "ELIMINAR" aquí...',
       inputAttributes: {
-        style: 'text-align: center; font-size: 16px; font-weight: 600; text-transform: uppercase;'
+        style: 'text-align: center; font-size: 16px; font-weight: 600;'
       },
       showCancelButton: true,
       confirmButtonText: '🗑️ Confirmar Eliminación',
@@ -178,7 +178,7 @@ export const ListaInvitadosPage = () => {
         if (!value) {
           return 'Debe escribir algo para continuar'
         }
-        if (value !== 'ELIMINAR') {
+        if (value.trim().toUpperCase() !== 'ELIMINAR') {
           return 'Debe escribir exactamente "ELIMINAR" en mayúsculas'
         }
       },
@@ -190,7 +190,7 @@ export const ListaInvitadosPage = () => {
       }
     });
 
-    if (!verification || verification !== 'ELIMINAR') {
+    if (!verification || verification.trim().toUpperCase() !== 'ELIMINAR') {
       await showErrorAlert('Cancelado', 'La eliminación ha sido cancelada.');
       return;
     }
