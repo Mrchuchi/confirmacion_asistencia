@@ -17,6 +17,8 @@ export const showConfirmAlert = async (
     confirmButtonText,
     cancelButtonText,
     reverseButtons: true,
+    confirmButtonColor: '#0DB14B',
+    cancelButtonColor: '#6c757d',
     customClass: {
       popup: 'swal2-popup-custom'
     }
@@ -30,7 +32,8 @@ export const showSuccessAlert = (title: string, text?: string) => {
     text,
     icon: 'success',
     timer: 2000,
-    showConfirmButton: false
+    showConfirmButton: false,
+    iconColor: '#0DB14B'
   });
 };
 
@@ -39,7 +42,8 @@ export const showErrorAlert = (title: string, text?: string) => {
     title,
     text,
     icon: 'error',
-    showConfirmButton: true
+    showConfirmButton: true,
+    confirmButtonColor: '#0DB14B'
   });
 };
 
@@ -66,6 +70,7 @@ export const showLoadingAlert = (title = 'Cargando...') => {
   loadingInstance = MySwal.fire({
     title,
     allowOutsideClick: false,
+    confirmButtonColor: '#0DB14B',
     didOpen: () => {
       Swal.showLoading();
     }
