@@ -56,7 +56,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
           <div className="invitado-card">
             <div className="person-info">
               <div className="person-header">
-                <h4>👤 Invitado Principal</h4>
+                <h4>◉ Invitado Principal</h4>
                 {invitado.estado_asistencia && (
                   <span className="attendance-status confirmed">✓ Confirmado</span>
                 )}
@@ -101,7 +101,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                   <div key={acompanante.id} className="acompanante-card">
                     <div className="person-info">
                       <div className="person-header">
-                        <h4>👥 Acompañante {index + 1}</h4>
+                        <h4>◉ Acompañante {index + 1}</h4>
                         {acompanante.estado_asistencia && (
                           <span className="attendance-status confirmed">✓ Confirmado</span>
                         )}
