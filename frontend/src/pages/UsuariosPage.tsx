@@ -256,7 +256,7 @@ export const UsuariosPage: React.FC = () => {
                               onClick={() => handleDelete(user)}
                               title="Eliminar usuario"
                             >
-                              ✕
+                              X
                             </button>
                           </div>
                         </td>
