@@ -138,13 +138,23 @@ export class AsistenciaService {
   /**
    * Agrega un acompañante extra a un invitado existente
    */
-  static async agregarAcompananteExtra(invitadoId: number, nombreAcompanante: string, cedula: string): Promise<{ success: boolean; message: string; acompanante: { id: number; nombre: string; invitado_id: number } }> {
+  static async agregarAcompananteExtra(data: {
+    invitadoId: number;
+    nombre: string;
+    cedula: string;
+    edad?: number;
+    parentesco?: string;
+    eps?: string;
+  }): Promise<{ success: boolean; message: string; acompanante: { id: number; nombre: string; invitado_id: number } }> {
     try {
       const response = await apiClient.post('/api/v1/agregar-acompanante-extra', null, {
         params: {
-          invitado_id: invitadoId,
-          nombre_acompanante: nombreAcompanante,
-          cedula_acompanante: cedula
+          invitado_id: data.invitadoId,
+          nombre_acompanante: data.nombre,
+          cedula_acompanante: data.cedula,
+          edad_acompanante: data.edad,
+          parentesco_acompanante: data.parentesco,
+          eps_acompanante: data.eps
         }
       });
       return response.data;

@@ -47,10 +47,10 @@ export const showErrorAlert = (title: string, text?: string) => {
   });
 };
 
-let toastInstance: ReturnType<typeof MySwal.mixin> | null = null;
+let toastInstance: ReturnType<typeof Swal.mixin> | null = null;
 export const showToast = (message: string, icon: 'success' | 'error' | 'info' | 'warning' = 'info') => {
   if (!toastInstance) {
-    toastInstance = MySwal.mixin({
+    toastInstance = Swal.mixin({
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
@@ -65,10 +65,11 @@ export const showToast = (message: string, icon: 'success' | 'error' | 'info' | 
   });
 };
 
-let loadingInstance: Swal | null = null;
-export const showLoadingAlert = (title = 'Cargando...') => {
+let loadingInstance: ReturnType<typeof MySwal.fire> | null = null;
+export const showLoadingAlert = (title = 'Cargando...', text?: string) => {
   loadingInstance = MySwal.fire({
     title,
+    text,
     allowOutsideClick: false,
     confirmButtonColor: '#0DB14B',
     didOpen: () => {
