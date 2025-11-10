@@ -615,18 +615,34 @@
   background: #f8fff9;
   border-radius: 8px;
   border: 1px solid #bbf7d0;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .pagination-info {
   color: #4b5563;
   font-size: 0.9rem;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.showing-info {
+  font-size: 0.85rem;
+}
+
+.page-info {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 600;
 }
 
 .pagination-controls {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .pagination-btn {
@@ -667,9 +683,61 @@
   border-color: #0DB14B;
 }
 
+.pagination-dots {
+  padding: 0.5rem 0.25rem;
+  color: #6b7280;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
 .page-numbers {
   display: flex;
   gap: 0.25rem;
+  align-items: center;
+}
+
+.go-to-page {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border: 1px solid #e1e8ed;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.go-to-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+.page-input {
+  width: 60px;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-align: center;
+  background: white;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.page-input:focus {
+  outline: none;
+  border-color: #0DB14B;
+  box-shadow: 0 0 0 2px rgba(13, 177, 75, 0.1);
+}
+
+.page-input::placeholder {
+  color: #9ca3af;
+  font-weight: 500;
 }
 
 /* Vista de tarjetas para móviles */
@@ -925,13 +993,34 @@
     text-align: center;
   }
   
+  .pagination-info {
+    text-align: center;
+  }
+  
   .pagination-controls {
     justify-content: center;
+    flex-wrap: wrap;
   }
   
   .page-numbers {
     flex-wrap: wrap;
     justify-content: center;
+  }
+  
+  .go-to-page {
+    order: 3;
+    justify-content: center;
+  }
+  
+  .pagination-btn {
+    min-width: 35px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .page-input {
+    width: 50px;
+    font-size: 0.75rem;
   }
 }
 

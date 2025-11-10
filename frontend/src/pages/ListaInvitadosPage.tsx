@@ -115,6 +115,47 @@ export const ListaInvitadosPage = () => {
     }
   };
 
+  const irPrimeraPagina = () => {
+    setPaginaActual(1);
+  };
+
+  const irUltimaPagina = () => {
+    setPaginaActual(totalPaginas);
+  };
+
+  // Función para generar array de números de página a mostrar
+  const generarNumerosPagina = () => {
+    const delta = 2; // Número de páginas a mostrar a cada lado de la página actual
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = Math.max(2, paginaActual - delta); i <= Math.min(totalPaginas - 1, paginaActual + delta); i++) {
+      range.push(i);
+    }
+
+    if (paginaActual - delta > 2) {
+      rangeWithDots.push(1, '...');
+    } else {
+      rangeWithDots.push(1);
+    }
+
+    rangeWithDots.push(...range);
+
+    if (paginaActual + delta < totalPaginas - 1) {
+      rangeWithDots.push('...', totalPaginas);
+    } else {
+      if (totalPaginas > 1) {
+        rangeWithDots.push(totalPaginas);
+      }
+    }
+
+    // Eliminar duplicados
+    return rangeWithDots.filter((item, index, arr) => {
+      if (item === '...') return true;
+      return arr.indexOf(item) === index;
+    });
+  };
+
   const cambiarOrden = (campo: 'nombre' | 'cedula' | 'estado') => {
     if (ordenarPor === campo) {
       setOrdenAscendente(!ordenAscendente);
@@ -594,10 +635,27 @@ export const ListaInvitadosPage = () => {
                 {invitadosFiltrados.length > 0 && totalPaginas > 1 && (
                   <div className="pagination-container">
                     <div className="pagination-info">
-                      Mostrando {indiceInicio + 1}-{Math.min(indiceFin, invitadosFiltrados.length)} de {invitadosFiltrados.length} invitados
+                      <div className="showing-info">
+                        Mostrando {indiceInicio + 1}-{Math.min(indiceFin, invitadosFiltrados.length)} de {invitadosFiltrados.length} invitados
+                      </div>
+                      <div className="page-info">
+                        Página {paginaActual} de {totalPaginas}
+                      </div>
                     </div>
                     
                     <div className="pagination-controls">
+                      {/* Botón primera página */}
+                      {paginaActual > 3 && (
+                        <button
+                          onClick={irPrimeraPagina}
+                          className="pagination-btn"
+                          title="Primera página"
+                        >
+                          ««
+                        </button>
+                      )}
+                      
+                      {/* Botón página anterior */}
                       <button
                         onClick={irPaginaAnterior}
                         disabled={paginaActual === 1}
@@ -607,18 +665,31 @@ export const ListaInvitadosPage = () => {
                         ←
                       </button>
                       
+                      {/* Números de página */}
                       <div className="page-numbers">
-                        {Array.from({ length: totalPaginas }, (_, index) => (
-                          <button
-                            key={index + 1}
-                            onClick={() => cambiarPagina(index + 1)}
-                            className={`pagination-btn ${paginaActual === index + 1 ? 'active' : ''}`}
-                          >
-                            {index + 1}
-                          </button>
-                        ))}
+                        {generarNumerosPagina().map((pageNumber, index) => {
+                          if (pageNumber === '...') {
+                            return (
+                              <span key={`dots-${index}`} className="pagination-dots">
+                                ...
+                              </span>
+                            );
+                          }
+                          
+                          return (
+                            <button
+                              key={pageNumber}
+                              onClick={() => cambiarPagina(Number(pageNumber))}
+                              className={`pagination-btn ${paginaActual === pageNumber ? 'active' : ''}`}
+                              title={`Página ${pageNumber}`}
+                            >
+                              {pageNumber}
+                            </button>
+                          );
+                        })}
                       </div>
                       
+                      {/* Botón página siguiente */}
                       <button
                         onClick={irPaginaSiguiente}
                         disabled={paginaActual === totalPaginas}
@@ -627,7 +698,43 @@ export const ListaInvitadosPage = () => {
                       >
                         →
                       </button>
+                      
+                      {/* Botón última página */}
+                      {paginaActual < totalPaginas - 2 && (
+                        <button
+                          onClick={irUltimaPagina}
+                          className="pagination-btn"
+                          title="Última página"
+                        >
+                          »»
+                        </button>
+                      )}
                     </div>
+                    
+                    {/* Input para ir a página específica */}
+                    {totalPaginas > 10 && (
+                      <div className="go-to-page">
+                        <span className="go-to-label">Ir a:</span>
+                        <input
+                          type="number"
+                          min="1"
+                          max={totalPaginas}
+                          value=""
+                          placeholder={paginaActual.toString()}
+                          className="page-input"
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              const target = e.target as HTMLInputElement;
+                              const pageNum = parseInt(target.value);
+                              if (pageNum >= 1 && pageNum <= totalPaginas) {
+                                cambiarPagina(pageNum);
+                                target.value = '';
+                              }
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
