@@ -16,6 +16,21 @@ router = APIRouter(prefix="/auth", tags=["authentication"])
 security = HTTPBearer()
 
 
+@router.options("/login")
+async def login_options():
+    """Manejar peticiones OPTIONS para login"""
+    return {"message": "OK"}
+
+
+@router.get("/test")
+async def auth_test():
+    """Endpoint de prueba para verificar que auth funciona"""
+    return {
+        "message": "Auth router funcionando correctamente",
+        "endpoints": ["/login", "/verify-token", "/me"]
+    }
+
+
 @router.post("/login", response_model=Token)
 async def login(user_login: UserLogin, db: Session = Depends(get_db)):
     """Iniciar sesión"""
